@@ -1,0 +1,466 @@
+/* ===== Kankotri Traditional Design ===== */
+:root {
+  --k-red: #8b1538;
+  --k-red-dark: #5c0e25;
+  --k-gold: #c9a227;
+  --k-gold-light: #e8d48a;
+  --k-cream: #faf6ee;
+  --k-cream-dark: #f0e8d8;
+  --k-maroon-text: #4a1220;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Noto Sans Gujarati', sans-serif;
+  background:
+    radial-gradient(ellipse at top, rgba(201, 162, 39, 0.15) 0%, transparent 50%),
+    linear-gradient(180deg, #2a0818 0%, #4a1220 30%, #3d0f1f 100%);
+  min-height: 100vh;
+  color: var(--k-maroon-text);
+  padding: 1rem;
+}
+
+/* ===== Falling Flowers ===== */
+.flower-shower {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
+  overflow: hidden;
+}
+
+.falling-flower {
+  position: absolute;
+  top: -40px;
+  opacity: 0;
+  animation: flowerFall linear forwards;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+}
+
+@keyframes flowerFall {
+  0% {
+    opacity: 0;
+    transform: translateY(0) translateX(0) rotate(0deg);
+  }
+  10% {
+    opacity: 0.9;
+  }
+  90% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(110vh) translateX(var(--drift, 0px)) rotate(360deg);
+  }
+}
+
+.audio-play-prompt {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 1.25rem 2rem;
+  background: linear-gradient(135deg, #8b1538, #5c0e25);
+  color: #fff;
+  border: 2px solid var(--k-gold);
+  border-radius: 20px;
+  font-family: 'Noto Sans Gujarati', sans-serif;
+  cursor: pointer;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  animation: audioPromptPulse 2s ease-in-out infinite;
+}
+
+.prompt-icon {
+  font-size: 1.5rem;
+  line-height: 1;
+  margin-bottom: 0.25rem;
+}
+
+.prompt-gu {
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.prompt-en {
+  font-family: 'Montserrat', 'Segoe UI', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 500;
+  opacity: 0.9;
+  letter-spacing: 0.04em;
+}
+
+.audio-play-prompt:hover {
+  background: linear-gradient(135deg, #a01a42, #8b1538);
+}
+
+@keyframes audioPromptPulse {
+  0%, 100% { box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4); }
+  50%      { box-shadow: 0 8px 40px rgba(201, 162, 39, 0.5); }
+}
+
+.back-link {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.1rem;
+  color: var(--k-gold-light);
+  text-decoration: none;
+  margin-bottom: 1rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid rgba(201, 162, 39, 0.4);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 60;
+}
+
+.back-gu {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.back-en {
+  font-family: 'Montserrat', 'Segoe UI', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 500;
+  opacity: 0.85;
+  letter-spacing: 0.03em;
+}
+
+.back-link:hover {
+  background: rgba(201, 162, 39, 0.2);
+  color: #fff;
+}
+
+.kankotri-page {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 1rem 0 3rem;
+}
+
+/* ===== Card ===== */
+.kankotri-card {
+  position: relative;
+  z-index: 10;
+  max-width: 680px;
+  width: 100%;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 28px,
+      rgba(139, 21, 56, 0.03) 28px,
+      rgba(139, 21, 56, 0.03) 29px
+    ),
+    linear-gradient(180deg, var(--k-cream) 0%, #fff 40%, var(--k-cream-dark) 100%);
+  border-radius: 4px;
+  padding: 28px 20px;
+  box-shadow:
+    0 0 0 4px var(--k-gold),
+    0 0 0 8px var(--k-red),
+    0 0 0 12px var(--k-gold-light),
+    0 20px 60px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transform: translateY(30px) scale(0.97);
+  transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.34, 1.2, 0.64, 1);
+}
+
+.kankotri-card.show {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Borders */
+.k-border {
+  position: absolute;
+  pointer-events: none;
+}
+
+.k-border-outer {
+  inset: 12px;
+  border: 2px solid var(--k-red);
+  border-radius: 2px;
+}
+
+.k-border-inner {
+  inset: 18px;
+  border: 1px dashed var(--k-gold);
+  border-radius: 2px;
+}
+
+.k-corner {
+  position: absolute;
+  font-size: 1.2rem;
+  color: var(--k-gold);
+  z-index: 2;
+  animation: cornerGlow 3s ease-in-out infinite;
+}
+
+.k-corner-tl { top: 8px; left: 8px; }
+.k-corner-tr { top: 8px; right: 8px; animation-delay: 0.5s; }
+.k-corner-bl { bottom: 8px; left: 8px; animation-delay: 1s; }
+.k-corner-br { bottom: 8px; right: 8px; animation-delay: 1.5s; }
+
+@keyframes cornerGlow {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.15); }
+}
+
+.kankotri-body {
+  position: relative;
+  z-index: 1;
+  padding: 1rem 1.25rem 0.5rem;
+  text-align: center;
+}
+
+/* Mantras */
+.k-mantras {
+  margin-bottom: 0.75rem;
+}
+
+.k-mantras p {
+  font-size: clamp(0.75rem, 2.2vw, 0.9rem);
+  font-weight: 600;
+  color: var(--k-red);
+  margin: 0.2rem 0;
+  letter-spacing: 0.02em;
+}
+
+/* Divider */
+.k-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin: 1rem 0;
+  color: var(--k-gold);
+  font-size: 0.7rem;
+}
+
+.k-divider.thin {
+  margin: 0.75rem 0;
+}
+
+.k-line {
+  flex: 1;
+  max-width: 200px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--k-gold), transparent);
+}
+
+/* Idol */
+.k-idol-wrap {
+  max-width: 140px;
+  margin: 0.5rem auto 1rem;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 2px solid var(--k-gold);
+  box-shadow: 0 4px 20px rgba(139, 21, 56, 0.2);
+}
+
+.k-idol-img {
+  width: 100%;
+  display: block;
+}
+
+/* Salutation */
+.k-salutation {
+  font-size: clamp(1rem, 3vw, 1.2rem);
+  font-weight: 700;
+  color: var(--k-red-dark);
+  margin: 0.5rem 0;
+  letter-spacing: 0.05em;
+}
+
+/* Main text */
+.k-main-text p {
+  font-size: clamp(0.85rem, 2.4vw, 0.95rem);
+  line-height: 1.9;
+  color: var(--k-maroon-text);
+  margin-bottom: 0.75rem;
+  text-align: justify;
+  text-align-last: center;
+}
+
+.k-family {
+  font-weight: 500;
+}
+
+.k-family strong {
+  color: var(--k-red);
+  font-weight: 700;
+}
+
+/* Couple names block */
+.k-couple-block {
+  margin: 1.5rem 0;
+  padding: 1.25rem 1rem;
+  background: linear-gradient(135deg, rgba(139, 21, 56, 0.06) 0%, rgba(201, 162, 39, 0.08) 100%);
+  border: 1px solid rgba(201, 162, 39, 0.35);
+  border-radius: 12px;
+  position: relative;
+}
+
+.k-couple-block::before,
+.k-couple-block::after {
+  content: '✦';
+  position: absolute;
+  color: var(--k-gold);
+  font-size: 0.8rem;
+}
+
+.k-couple-block::before { top: 8px; left: 12px; }
+.k-couple-block::after  { top: 8px; right: 12px; }
+
+.k-groom-name,
+.k-bride-name {
+  font-family: 'Cormorant Garamond', 'Noto Sans Gujarati', serif;
+  font-size: clamp(1.8rem, 5vw, 2.4rem);
+  font-weight: 700;
+  color: var(--k-red-dark);
+  margin: 0.25rem 0;
+  line-height: 1.2;
+}
+
+.k-wedding-label {
+  font-size: clamp(0.9rem, 2.5vw, 1.05rem);
+  font-weight: 600;
+  color: var(--k-gold);
+  margin: 0.5rem 0;
+  letter-spacing: 0.1em;
+}
+
+.k-date-block {
+  font-size: clamp(0.9rem, 2.5vw, 1rem) !important;
+  font-weight: 500;
+  margin-top: 1rem !important;
+}
+
+.k-date-block strong {
+  color: var(--k-red);
+  font-size: 1.1em;
+}
+
+/* Blessing */
+.k-blessing-text {
+  font-size: clamp(0.85rem, 2.4vw, 0.95rem);
+  line-height: 1.9;
+  color: var(--k-maroon-text);
+  font-style: italic;
+  margin: 0.5rem 0;
+  text-align: justify;
+  text-align-last: center;
+}
+
+/* Inviters */
+.k-inviters {
+  margin: 1.25rem 0 1rem;
+  padding: 1rem;
+  border-top: 2px double var(--k-gold);
+  border-bottom: 2px double var(--k-gold);
+}
+
+.k-inviters-title {
+  font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+  font-weight: 700;
+  color: var(--k-red);
+  margin-bottom: 0.75rem !important;
+  letter-spacing: 0.08em;
+}
+
+.k-inviters p {
+  font-size: clamp(0.8rem, 2.2vw, 0.9rem);
+  margin: 0.3rem 0;
+  color: var(--k-maroon-text);
+  font-weight: 500;
+}
+
+/* Contact */
+.k-contact {
+  margin: 1rem 0;
+  font-size: clamp(0.9rem, 2.5vw, 1rem);
+  font-weight: 600;
+}
+
+.k-contact a {
+  color: var(--k-red);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--k-red);
+}
+
+.k-contact a:hover {
+  color: var(--k-red-dark);
+}
+
+.k-contact-sep {
+  margin: 0 0.5rem;
+  color: var(--k-gold);
+}
+
+/* Footer blessing */
+.k-footer-blessing {
+  font-size: clamp(1rem, 3vw, 1.2rem);
+  font-weight: 700;
+  color: var(--k-red);
+  margin: 1rem 0 0.5rem;
+  letter-spacing: 0.1em;
+}
+
+/* Responsive */
+@media (max-width: 575.98px) {
+  body {
+    padding: 0.75rem;
+  }
+
+  .kankotri-card {
+    padding: 20px 12px;
+  }
+
+  .kankotri-body {
+    padding: 0.75rem 0.5rem 0.25rem;
+  }
+
+  .k-main-text p {
+    line-height: 1.75;
+  }
+}
+
+@media print {
+  body {
+    background: #fff;
+    padding: 0;
+  }
+
+  .back-link,
+  .flower-shower,
+  .audio-play-prompt {
+    display: none;
+  }
+
+  .kankotri-card {
+    box-shadow: none;
+    max-width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .falling-flower {
+    animation: none;
+    display: none;
+  }
+
+  .kankotri-card {
+    opacity: 1;
+    transform: none;
+  }
+}
