@@ -79,7 +79,7 @@ $(document).ready(function () {
   setInterval(updateCountdown, 1000);
 
   // RSVP WhatsApp
-  var rsvpMsg = encodeURIComponent("Hello! I would like to RSVP for Bhavik & Mansi's wedding.");
+  var rsvpMsg = encodeURIComponent("Hello! I would like to RSVP for Mansi & Bhavik's wedding.");
   $('#rsvpBtn').attr('href', 'https://wa.me/' + WEDDING_CONFIG.whatsapp + '?text=' + rsvpMsg);
 
   // Scroll reveal animations
